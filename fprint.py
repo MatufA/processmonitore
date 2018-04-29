@@ -13,17 +13,13 @@ def print_list(to_print):
     except:
         return False
     
-    
     if mode:
         with open(filename, "w") as plist:
             for line in print_list[:-2]:
                 plist.write(str(line) + "\n")
             
-
     else:
         with open(filename, "a") as plist:        
             for line in print_list[:-2]:
                 plist.write(str(line) + "\n")
-                print(line)
-
     return True

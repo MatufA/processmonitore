@@ -11,6 +11,6 @@ def read_list(filepath):
        print("The file has been removed./n\
              Someone delet your file, insure it's not maliciuos")
        return proc_list
-    with open (filepath , "r") as read:
+    with open (filepath , "rb") as read:
         proc_list = read.readlines()
     return proc_list

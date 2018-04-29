@@ -19,39 +19,28 @@ def compare_process (list_to_compar, old_list):
     
     if not old_list: return status_log_new.clear() ,status_log_old.clear()
     
-    if list_to_compar[0] == old_list[0]: return status_log_new.clear() ,status_log_old.clear()
+#    if list_to_compar[0] == old_list[0]: return status_log_new.clear() ,status_log_old.clear()
     
-    for line_new in list_to_compar[1:-2]:
-        try:
-            new_pid = int(line_new.split('-')[0])
-        except ValueError:
-            print ("Error while parsing from list...")
-            return status_log_new.clear() ,status_log_old.clear()
-        
-        for line_old in old_list[1:-2]:
-            try:
-                old_pid = int(line_old.split('-')[0])
-                
-                if new_pid == old_pid:
-                    old_list.pop(0)
-                    break
-                
-                else:
-                    if new_pid > old_pid: 
-                        status_log_old.append(line_old)
-                        old_list.pop(0)
-                        continue
-                    
-                    elif new_pid < old_pid: 
-                        status_log_new.append(line_new)
-                        break
-                 
-                    
-                
-            except ValueError:
-                print ("Error while parsing from file...")
+    for line_new in list_to_compar[:]:
+        new_pid = line_new[1]  
+        for line_old in old_list[:]:
+            old_pid = line_old[1]
+
+            if new_pid == old_pid:
                 old_list.pop(0)
                 break
+
+            else:
+                if new_pid > old_pid: 
+                    status_log_old.append(str(line_old[0]) + "-" + str(line_old[1]) + "-" \
+                            + str(line_old[2])  + str(line_old[3]))
+                    old_list.pop(0)
+                    continue
+
+                elif new_pid < old_pid: 
+                    status_log_new.append(str(line_new[0]) + "-" + str(line_new[1]) + "-" \
+                            + str(line_new[2])  + str(line_new[3]))
+                    break
             
     status_log_new.extend(["Status_Log.txt" , False])
     status_log_old.extend(["Status_Log.txt" , False])

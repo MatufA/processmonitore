@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/python
+#!/bin/bash
 """
 Created on Sat Apr  7 04:12:40 2018
 
@@ -10,25 +12,29 @@ import fprint as fp
 import fread as fr
 import crypt_decrypt as cd
 import sys, time
+import database as db
 
 def task_schd():
    #time_loop = int(input ('Decide how long time between each sample,\
     #                \nenter in minute and for secont 0.*: '))
     try:
+        db.create_database();
         comp = False
         clist_start =[]
         clist_stop =[]
-        print_status = 0
-        key = 0
+        prev_date = 0
+        #print_status = 0
+        #key = b'eju9_YGR2s5y6Ph-AFe1W-T4eCfvIoLc1NU8AfYlW9I='
         print("Starting...\n")
         while True:
             print("Get All Running Process...\n")
-            proclist = pr.proc_list()
+            proclist,date = pr.proc_list()
             
-            if print_status and comp:
+            if comp:
                 print("Compare amd analyze...\n")
-                prev_list = fr.read_list("processList.txt")
-                prev_list = cd.decrypt_list(prev_list, key)
+                #prev_list = fr.read_list("processList.txt")
+                #prev_list = cd.decrypt_list(prev_list, key)
+                prev_list = db.load_data_by_date(prev_date)
                 clist_start, clist_stop = co.compare_process(proclist, prev_list)
                 
                 print("Print Status Log...\n")
@@ -40,9 +46,11 @@ def task_schd():
             else: 
                 comp = True
             print("Print All Running Process...\n")
-            key = cd.generate_key()
-            proclist = cd.crypt_list(proclist, key)
-            print_status = fp.print_list(proclist)
+            #proclist = cd.crypt_list(proclist, key)
+            db.insert_data(proclist)
+            print(proclist[0])
+            prev_date =date
+            #print_status = fp.print_list(proclist)
             time.sleep(10)
             
     except KeyboardInterrupt:
