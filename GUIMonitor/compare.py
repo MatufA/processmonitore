@@ -33,13 +33,13 @@ def compare_process (list_to_compar, old_list):
             else:
                 if new_pid > old_pid: 
                     status_log_old.append(str(line_old[0]) + "-" + str(line_old[1]) + "-" \
-                            + str(line_old[2])  + str(line_old[3]))
+                            + str(line_old[2])  + "-" + str(line_old[3]))
                     old_list.pop(0)
                     continue
 
                 elif new_pid < old_pid: 
                     status_log_new.append(str(line_new[0]) + "-" + str(line_new[1]) + "-" \
-                            + str(line_new[2])  + str(line_new[3]))
+                            + str(line_new[2])  + "-" + str(line_new[3]))
                     break
             
     status_log_new.extend(["Status_Log.txt" , False])
